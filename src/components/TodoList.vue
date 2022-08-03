@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="todo-container" v-for="(item, index) in list" :key="index">
-      <div>
+      <div :class="item.done && 'done'">
         {{ item.name }}
       </div>
-      <div>done: {{ !!done }}</div>
+      <div>
+        <button type="button" @click="complete(item.name)">complete</button>
+      </div>
     </div>
   </div>
 </template>
@@ -18,7 +20,11 @@ export default {
       { name: "Go to gym", done: false },
       { name: "Bring the milk", done: false },
     ]);
-    return { list };
+    function complete(name) {
+      const item = list.value.find((l) => l.name === name);
+      item.done = true;
+    }
+    return { list, complete };
   },
 };
 </script>
@@ -34,5 +40,8 @@ export default {
   border-radius: 5px;
   margin: 10px 0;
   min-width: 400px;
+}
+.done {
+  color: green;
 }
 </style>
